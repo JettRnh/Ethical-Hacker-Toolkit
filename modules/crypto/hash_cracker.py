@@ -18,7 +18,16 @@ class HashCracker:
         self.target_hash = target_hash.lower()
         self.hash_type = hash_type.lower()
         self.wordlist = wordlist
-        self.threads = min(threads, 200)
+        
+        # SAFE: Crypto tasks need fewer threads (CPU bound)
+        try:
+            from core.adaptive import adapt_thread_count
+            self.threads = adapt_thread_count(threads, max_limit=200)
+            # Crypto needs conservative threading
+            self.threads = min(self.threads, 100)
+        except Exception:
+            self.threads = min(threads, 100)
+        
         self.found_password = None
         self.attempts = 0
         self.lock = threading.Lock()
@@ -39,7 +48,7 @@ class HashCracker:
         
         self.hash_func = self.hash_funcs[hash_type]
         
-        log.status(f"HashCracker initialized for {hash_type} hash")
+        log.status(f"HashCracker initialized for {hash_type} hash with {self.threads} threads")
         log.info(f"Target hash: {target_hash[:32]}...")
     
     def hash_string(self, text):
