@@ -18,7 +18,14 @@ class DirBruteforce:
     def __init__(self, target_url, wordlist, threads=50, extensions=None, recursive=False):
         self.target_url = target_url.rstrip('/')
         self.wordlist = wordlist
-        self.threads = min(threads, 200)
+        
+        # SAFE: Use adaptive threading
+        try:
+            from core.adaptive import adapt_thread_count
+            self.threads = adapt_thread_count(threads, max_limit=200)
+        except Exception:
+            self.threads = min(threads, 200)
+        
         self.extensions = extensions or []
         self.recursive = recursive
         self.found = []
@@ -30,10 +37,10 @@ class DirBruteforce:
             'Accept-Language': 'en-US,en;q=0.9',
             'Connection': 'keep-alive'
         })
-        self.rate_limiter = RateLimiter(50)  # 50 requests per second max
+        self.rate_limiter = RateLimiter(50)
         
         log.status(f"DirBruteforce initialized for {target_url}")
-        log.info(f"Threads: {threads}, Extensions: {extensions or 'none'}")
+        log.info(f"Threads: {self.threads}, Extensions: {extensions or 'none'}")
     
     def check_path(self, path):
         """Check if path exists on target"""
@@ -141,7 +148,7 @@ class DirBruteforce:
                     self.wordlist,
                     self.threads,
                     self.extensions,
-                    recursive=False  # Prevent infinite recursion
+                    recursive=False
                 )
                 sub_results = recursive_brute.run()
                 with self.lock:
