@@ -2,6 +2,7 @@
 """
 Configuration settings for Ethical Hacker Toolkit
 Author: Jet
+GitHub: https://github.com/JettRnh
 """
 
 import os
@@ -48,11 +49,23 @@ COMMON_DIRECTORIES = WORDLIST_DIR / "directories.txt"
 COMMON_SUBDOMAINS = WORDLIST_DIR / "subdomains.txt"
 
 # Rate limiting
-RATE_LIMIT = 100  # requests per second max
+RATE_LIMIT = 100
 RATE_LIMIT_ENABLED = True
 
 # Scapy settings
 SCAPY_USE_IPV6 = False
+
+# Adaptive threading
+ADAPTIVE_THREADING = True
+MAX_THREADS_LIMIT = 500
+
+# Environment variable override for max threads
+if os.environ.get("EHT_MAX_THREADS"):
+    MAX_THREADS_LIMIT = int(os.environ.get("EHT_MAX_THREADS"))
+
+# Disable adaptive threading via environment variable
+if os.environ.get("EHT_DISABLE_ADAPTIVE"):
+    ADAPTIVE_THREADING = False
 
 # Author info
 AUTHOR = "Jet"
