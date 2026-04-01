@@ -1,0 +1,5 @@
+# This directory contains wordlist files
+# Place your wordlist files here:
+#   common_passwords.txt - Password dictionary
+#   directories.txt - Directory names for web scanning
+#   subdomains.txt - Subdomain list for DNS enumeration
