@@ -70,6 +70,9 @@ source venv/bin/activate
 ## Quick Start
 
 ```bash
+# Show system info
+eht info
+
 # Port scan
 eht scan 192.168.1.1 -p 1-1000 --banner
 
@@ -103,39 +106,54 @@ eht email example.com -u http://example.com
 # Hash cracking
 eht crack <hash> md5 -w config/wordlists/common_passwords.txt
 
-# Encoding
+# Encoding utilities
 eht encode "Hello World" --base64 --hex --rot13
 
-# Full scan
+# Full assessment
 eht all example.com -o html
 ```
 
 ---
 
-## Command Overview
+## Commands Reference
+
+### Info
+| Command | Description |
+|--------|------------|
+| eht info | Show system information |
 
 ### Network
-- `scan` → Port scanning  
-- `ping` → Network discovery  
-- `trace` → Traceroute  
+| Command | Description | Example |
+|--------|------------|--------|
+| scan | Port scan | eht scan 192.168.1.1 -p 1-1000 |
+| ping | Network discovery | eht ping 192.168.1.0/24 |
+| trace | Traceroute | eht trace google.com |
 
 ### Web
-- `dir` → Directory brute-force  
-- `subdomain` → Subdomain scan  
-- `headers` → Header analysis  
-- `sql` → SQL testing  
+| Command | Description | Example |
+|--------|------------|--------|
+| dir | Directory brute-force | eht dir http://example.com |
+| subdomain | Subdomain scan | eht subdomain example.com |
+| headers | Header analysis | eht headers https://example.com |
+| sql | SQL testing | eht sql "http://example.com?id=1" |
 
 ### Recon
-- `whois` → WHOIS lookup  
-- `dns` → DNS enumeration  
-- `email` → Email scraping  
+| Command | Description |
+|--------|------------|
+| whois | WHOIS lookup |
+| dns | DNS enumeration |
+| email | Email harvesting |
 
 ### Crypto
-- `crack` → Hash cracking  
-- `encode` → Encoding tools  
+| Command | Description |
+|--------|------------|
+| crack | Hash cracking |
+| encode | Encoding tools |
 
 ### Full
-- `all` → Run all modules  
+| Command | Description |
+|--------|------------|
+| all | Run all modules |
 
 ---
 
@@ -175,9 +193,25 @@ Ethical-Hacker-Toolkit/
 
 ---
 
+## Adaptive Threading
+
+The toolkit automatically adjusts threads based on system capability:
+
+- Mobile / Termux → up to 200 threads  
+- Desktop / Server → up to 1000 threads  
+
+### Override
+
+```bash
+export EHT_DISABLE_ADAPTIVE=1
+export EHT_MAX_THREADS=200
+```
+
+---
+
 ## Logging
 
-Logs stored in:
+Logs:
 ```
 logs/eht.log
 ```
@@ -189,7 +223,7 @@ Levels:
 - ERROR
 - DEBUG
 
-View logs:
+View:
 ```bash
 ./scripts/view_logs.sh
 ```
@@ -208,7 +242,7 @@ Formats:
 - JSON
 - HTML
 
-Merge reports:
+Merge:
 ```bash
 python scripts/report_merger.py
 ```
@@ -239,9 +273,9 @@ This toolkit is for **educational and authorized testing only**.
 
 You may ONLY use this tool on:
 - Systems you own
-- Systems you have explicit permission to test
+- Systems you have explicit permission
 
-Unauthorized usage is illegal and may result in criminal charges.
+Unauthorized use is illegal.
 
 The author is not responsible for misuse.
 
@@ -255,7 +289,7 @@ MIT License
 
 ## Support
 
-- GitHub Issues: https://github.com/JettRnh/Ethical-Hacker-Toolkit/issues
+- Issues: https://github.com/JettRnh/Ethical-Hacker-Toolkit/issues
 - TikTok: @jettinibos_
 
 ---
