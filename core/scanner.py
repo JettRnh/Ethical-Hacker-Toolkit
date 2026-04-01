@@ -12,6 +12,7 @@ from core.utils import (
     validate_ip, resolve_hostname, get_service_name,
     ThreadPool, timer
 )
+from core.adaptive import adapt_thread_count, get_recommended_threads
 from config.settings import DEFAULT_TIMEOUT, DEFAULT_THREADS
 
 class BaseScanner:
@@ -19,7 +20,17 @@ class BaseScanner:
     
     def __init__(self, target, threads=DEFAULT_THREADS, timeout=DEFAULT_TIMEOUT):
         self.target = target
-        self.threads = min(threads, 500)
+        
+        # SAFE: Use adaptive threading, but keep old behavior as fallback
+        try:
+            self.threads = adapt_thread_count(threads, max_limit=500)
+            if threads != self.threads:
+                log.debug(f"Thread count adapted from {threads} to {self.threads}")
+        except Exception:
+            # If adaptive fails, use original value (safe fallback)
+            self.threads = min(threads, 500)
+            log.debug(f"Using original thread limit: {self.threads}")
+        
         self.timeout = timeout
         self.results = []
         self.lock = threading.Lock()
@@ -35,7 +46,10 @@ class BaseScanner:
         if not self.ip:
             raise ValueError(f"Could not resolve target: {target}")
         
-        log.status(f"Scanner initialized for {self.hostname} ({self.ip})")
+        log.status(f"Scanner initialized for {self.hostname} ({self.ip}) with {self.threads} threads")
+    
+    # Rest of the class remains EXACTLY THE SAME as before
+    # (add_result, get_results, get_summary, scan_single_port, scan_range, scan_common_ports)
     
     def add_result(self, result):
         """Add result to collection"""
