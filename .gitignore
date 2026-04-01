@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Reports & Logs
+reports/*.txt
+reports/*.json
+reports/*.html
+logs/*.log
+
+# Wordlists (keep structure but ignore large files)
+config/wordlists/*.txt
+!config/wordlists/.gitkeep
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
