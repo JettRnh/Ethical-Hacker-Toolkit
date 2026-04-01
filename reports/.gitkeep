@@ -1,0 +1,14 @@
+# Reports Directory
+# This directory stores all generated reports from security assessments
+# 
+# Report formats:
+#   - .txt : Plain text reports
+#   - .json : JSON format for programmatic parsing
+#   - .html : HTML reports with formatting
+#
+# File naming convention:
+#   {tool_name}_{timestamp}.{format}
+#   Example: port_scan_20240101_120000.txt
+#
+# Reports are automatically organized by date in the filename
+# Clean up old reports periodically to save disk space
