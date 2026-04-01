@@ -1,0 +1,15 @@
+# Logs Directory
+# This directory stores all execution logs from the toolkit
+#
+# Log file: eht.log
+# Contains all console output with timestamps and log levels
+#
+# Log levels:
+#   INFO     - General information
+#   SUCCESS  - Successful operations
+#   WARNING  - Non-critical issues
+#   ERROR    - Operation failures
+#   DEBUG    - Detailed debugging info (when enabled)
+#
+# Log rotation: Log file appends indefinitely
+# Consider logrotate or manual cleanup for long-term use
