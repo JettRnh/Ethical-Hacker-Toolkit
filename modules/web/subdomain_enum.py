@@ -19,14 +19,21 @@ class SubdomainEnum:
     def __init__(self, domain, wordlist, threads=50, resolve=True):
         self.domain = domain.lower()
         self.wordlist = wordlist
-        self.threads = min(threads, 200)
+        
+        # SAFE: Use adaptive threading
+        try:
+            from core.adaptive import adapt_thread_count
+            self.threads = adapt_thread_count(threads, max_limit=200)
+        except Exception:
+            self.threads = min(threads, 200)
+        
         self.resolve = resolve
         self.found = []
         self.lock = threading.Lock()
-        self.rate_limiter = RateLimiter(100)  # 100 queries per second max
+        self.rate_limiter = RateLimiter(100)
         
         log.status(f"SubdomainEnum initialized for {domain}")
-        log.info(f"Threads: {threads}, DNS Resolution: {resolve}")
+        log.info(f"Threads: {self.threads}, DNS Resolution: {resolve}")
     
     def _read_wordlist(self):
         """Read subdomain wordlist"""
