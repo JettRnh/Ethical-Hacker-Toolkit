@@ -48,9 +48,6 @@ class BaseScanner:
         
         log.status(f"Scanner initialized for {self.hostname} ({self.ip}) with {self.threads} threads")
     
-    # Rest of the class remains EXACTLY THE SAME as before
-    # (add_result, get_results, get_summary, scan_single_port, scan_range, scan_common_ports)
-    
     def add_result(self, result):
         """Add result to collection"""
         with self.lock:
